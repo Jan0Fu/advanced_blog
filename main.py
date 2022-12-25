@@ -19,7 +19,6 @@ def get_all_posts():
 def contact_page():
     if request.method == "POST":
         data = request.form
-        data = request.form
         send_email(data["name"], data["email"], data["phone"], data["message"])
         return render_template('contact.html', msg_sent=True)
     return render_template('contact.html', msg_sent=False)
@@ -27,10 +26,10 @@ def contact_page():
 
 def send_email(name, email, phone, message):
     email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
-    with smtplib.SMTP("smtp.gmail.com") as connection:
+    with smtplib.SMTP_SSL("smtp.gmail.com") as connection:
         connection.starttls()
         connection.login(email, password)
-        connection.sendmail(from_addr=email, to_addrs=email, email_message)
+        connection.sendmail(from_addr=email, to_addrs=email, msg=email_message)
 
 
 @app.route('/about')
